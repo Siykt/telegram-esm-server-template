@@ -1,0 +1,13 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", "node_modules/", "dist/", "coverage/"],
+  "watch": ["src/"],
+  "execMap": {
+    "ts": "node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node --experimental-json-modules --no-warnings",
+    "js": "node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node --experimental-json-modules --no-warnings"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,json,ts"
+}
