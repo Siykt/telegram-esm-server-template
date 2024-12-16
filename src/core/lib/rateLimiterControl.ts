@@ -27,6 +27,8 @@ export class RateLimiterControl {
 
         return this.failedRetryTime
       }
+
+      return undefined
     })
   }
 
