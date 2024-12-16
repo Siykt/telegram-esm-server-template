@@ -1,26 +1,27 @@
-import EventEmitter from 'node:events';
+import EventEmitter from 'node:events'
 
 export function terminableWrapper() {
-  const emitter = new EventEmitter();
-  let _isTerminated = false;
+  const emitter = new EventEmitter()
+  let _isTerminated = false
 
   const wrapper = <T extends (...args: ExpectedAnyData) => ExpectedAnyData>(func: T) => {
     return (...args: Parameters<T>) => {
-      if (_isTerminated) return;
-      return func(...args);
-    };
-  };
+      if (_isTerminated)
+        return
+      return func(...args)
+    }
+  }
 
   const terminate = () => {
-    _isTerminated = true;
-    emitter.emit('abort');
-  };
+    _isTerminated = true
+    emitter.emit('abort')
+  }
 
-  const isTerminated = () => _isTerminated;
+  const isTerminated = () => _isTerminated
 
-  const reset = () => (_isTerminated = false);
+  const reset = () => (_isTerminated = false)
 
-  const clean = () => emitter.removeAllListeners();
+  const clean = () => emitter.removeAllListeners()
 
   return {
     wrapper,
@@ -29,5 +30,5 @@ export function terminableWrapper() {
     isTerminated,
     clean,
     emitter,
-  };
+  }
 }

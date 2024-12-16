@@ -1,12 +1,13 @@
-import { config } from 'dotenv';
+import process from 'node:process'
+import { config } from 'dotenv'
 
-let appHost = process.env.APP_HOST ?? 'http://127.0.0.1';
+let appHost = process.env.APP_HOST ?? 'http://127.0.0.1'
 
 if (!appHost.startsWith('http')) {
-  appHost = `https://${appHost}`;
+  appHost = `https://${appHost}`
 }
 
-config();
+config()
 
 export const ENV = {
   // app
@@ -26,9 +27,9 @@ export const ENV = {
   // Telegram
   TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN ?? '',
   TELEGRAM_USE_WEBHOOK: process.env.TELEGRAM_USE_WEBHOOK === 'true',
-  TELEGRAM_POLLING_INTERVAL: parseInt(process.env.TELEGRAM_POLLING_INTERVAL ?? '5000', 10),
+  TELEGRAM_POLLING_INTERVAL: Number.parseInt(process.env.TELEGRAM_POLLING_INTERVAL ?? '5000', 10),
 
   // server auth
   SERVER_AUTH_PASSWORD: process.env.SERVER_AUTH_PASSWORD ?? '',
   API_USER_AUTH_PASSWORD: process.env.API_USER_AUTH_PASSWORD ?? '',
-};
+}

@@ -1,5 +1,5 @@
-import { defineTGCommand } from '../core/telegram/defineCommand.js';
-import { Queries } from '../queries/index.js';
+import { defineTGCommand } from '../core/telegram/defineCommand.js'
+import { Queries } from '../queries/index.js'
 
 defineTGCommand({
   command: 'start',
@@ -12,7 +12,7 @@ defineTGCommand({
         reply_markup: {
           inline_keyboard: [[Queries.close], [Queries.del]],
         },
-      }
-    );
+      },
+    )
   },
-});
+})

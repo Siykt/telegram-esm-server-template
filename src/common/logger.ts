@@ -1,12 +1,12 @@
-import path from 'path';
-import winston, { format } from 'winston';
-import { ENV } from '../constants/env.js';
+import path from 'node:path'
+import winston, { format } from 'winston'
+import { ENV } from '../constants/env.js'
 
 const jsonLogFileFormat = format.combine(
   format.errors({ stack: true }),
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  format.prettyPrint()
-);
+  format.prettyPrint(),
+)
 
 const logger = winston.createLogger({
   level: 'info',
@@ -26,7 +26,7 @@ const logger = winston.createLogger({
       tailable: true,
     }),
   ],
-});
+})
 
 // if (isDev()) {
 logger.add(
@@ -37,12 +37,13 @@ logger.add(
       format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       winston.format.printf(({ level, message, timestamp, stack }) => {
         // print log trace
-        if (stack) return `${timestamp} ${level}: ${message} - ${stack}`;
-        return `${timestamp} ${level}: ${message}`;
-      })
+        if (stack)
+          return `${timestamp} ${level}: ${message} - ${stack}`
+        return `${timestamp} ${level}: ${message}`
+      }),
     ),
-  })
-);
+  }),
+)
 // }
 
-export default logger;
+export default logger

@@ -1,10 +1,11 @@
-import { defineTGQueryCallback } from '../core/telegram/defineCallback.js';
+import { defineTGQueryCallback } from '../core/telegram/defineCallback.js'
 
 export const close = defineTGQueryCallback({
   query: 'close',
   text: '❌ close',
   callback: async ({ client, msg }) => {
-    if (!msg) return;
+    if (!msg)
+      return
 
     await client.bot.editMessageText('this message is closed!', {
       chat_id: msg.chat.id,
@@ -12,16 +13,17 @@ export const close = defineTGQueryCallback({
       reply_markup: {
         inline_keyboard: [[del]],
       },
-    });
+    })
   },
-});
+})
 
 export const del = defineTGQueryCallback({
   query: 'delete',
   text: '🗑 delete',
   callback: async ({ client, msg }) => {
-    if (!msg) return;
+    if (!msg)
+      return
 
-    await client.bot.deleteMessage(msg.chat.id, msg.message_id);
+    await client.bot.deleteMessage(msg.chat.id, msg.message_id)
   },
-});
+})
