@@ -130,6 +130,23 @@ export class TelegramBotClient extends RateLimiterControl {
     await fs.writeFile(filepath, await this.bot.getFileStream(msg.document.file_id))
     return filepath
   }
+
+  async addMessageCallback(
+    msg: TelegramBot.Message,
+    callback: (msg: TelegramBot.Message) => void,
+    timeout = 60,
+  ) {
+    const timeoutId = setTimeout(() => {
+      this.bot.removeListener('message', callback)
+    }, timeout * 1000)
+
+    this.bot.on('message', (message) => {
+      if (message.chat.id === msg.chat.id) {
+        clearTimeout(timeoutId)
+        callback(message)
+      }
+    })
+  }
 }
 
 export const botClient = new TelegramBotClient(ENV.TELEGRAM_BOT_TOKEN, {
