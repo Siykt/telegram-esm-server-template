@@ -134,21 +134,27 @@ export class TelegramBotClient extends RateLimiterControl {
     return filepath
   }
 
-  async addMessageCallback(
+  addMessageCallback(
     msg: TelegramBot.Message,
     callback: (msg: TelegramBot.Message) => void,
     timeout = 60,
   ) {
-    const timeoutId = setTimeout(() => {
-      this.bot.removeListener('message', callback)
-    }, timeout * 1000)
-
-    this.bot.on('message', (message) => {
+    const handle = (message: TelegramBot.Message) => {
       if (message.chat.id === msg.chat.id) {
         clearTimeout(timeoutId)
         callback(message)
       }
-    })
+    }
+
+    const clean = () => {
+      clearTimeout(timeoutId)
+      this.bot.off('message', handle)
+    }
+    const timeoutId = setTimeout(clean, timeout * 1000)
+
+    this.bot.on('message', handle)
+
+    return clean
   }
 }
 
