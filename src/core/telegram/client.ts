@@ -7,6 +7,7 @@ import logger from '../../common/logger.js'
 import { ENV } from '../../constants/env.js'
 import { RateLimiterControl } from '../lib/rateLimiterControl.js'
 import { TelegramUsersContext } from './context.js'
+import { TelegramPayment } from './payment.js'
 import { formatMarkdownMessages } from './utils.js'
 
 interface TelegramBotError {
@@ -19,7 +20,8 @@ const template = isDev() ? _.template : _.memoize(_.template)
 export class TelegramBotClient extends RateLimiterControl {
   override failedRetryLimit = 10
 
-  bot: TelegramBot
+  readonly bot: TelegramBot
+  readonly payment: TelegramPayment
 
   ctx = {
     users: new TelegramUsersContext(),
@@ -33,6 +35,7 @@ export class TelegramBotClient extends RateLimiterControl {
       maxConcurrent: 2,
     })
     this.bot = this.createRateLimiterProxy(new TelegramBot(token, options))
+    this.payment = new TelegramPayment(this)
   }
 
   override checkJobFailError(error: Error | TelegramBotError, retryCount: number) {
