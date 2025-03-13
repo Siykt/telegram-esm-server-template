@@ -60,21 +60,20 @@ export class TelegramPayment {
     if (!parameters.price && !parameters.stars)
       throw new Error('Price or Stars is required')
 
-    return {
-      link: await this.client.bot.createInvoiceLink(parameters.title, parameters.description, payload, '', 'XTR', [
-        { label: 'Buy', amount: Math.ceil(
-          parameters.price ? parameters.price * 100 : parameters.stars as number,
-        ) },
-      ]),
-      payload,
-    }
+    const link = await this.client.bot.createInvoiceLink(parameters.title, parameters.description, payload, '', 'XTR', [
+      { label: 'Buy', amount: Math.ceil(
+        parameters.price ? parameters.price * 100 : parameters.stars as number,
+      ) },
+    ])
+
+    return { link, payload }
   }
 
   async sendStarInvoiceMessage(parameters: CreateStarInvoiceLinkParameters) {
     const payload = nanoid(10)
     this._resolveStarPaymentCache.set(payload, parameters.chatId)
 
-    return this.client.bot.sendInvoice(
+    const message = await this.client.bot.sendInvoice(
       parameters.chatId,
       parameters.title,
       parameters.description.replace('{{payload}}', payload),
@@ -87,6 +86,8 @@ export class TelegramPayment {
         ) },
       ],
     )
+
+    return { message, payload }
   }
 
   onStarPayment(payload: string, callback: (chatId: number) => void) {
