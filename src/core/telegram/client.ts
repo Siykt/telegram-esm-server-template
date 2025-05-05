@@ -6,6 +6,7 @@ import { isDev } from '../../common/is.js'
 import logger from '../../common/logger.js'
 import { ENV } from '../../constants/env.js'
 import { RateLimiterControl } from '../lib/rateLimiterControl.js'
+import { TGAuthenticator } from './authenticator.js'
 import { TelegramUsersContext } from './context.js'
 import { TelegramPayment } from './payment.js'
 import { formatMarkdownMessages } from './utils.js'
@@ -22,6 +23,7 @@ export class TelegramBotClient extends RateLimiterControl {
 
   readonly bot: TelegramBot
   readonly payment: TelegramPayment
+  readonly authenticator: TGAuthenticator
 
   ctx = {
     users: new TelegramUsersContext(),
@@ -36,6 +38,7 @@ export class TelegramBotClient extends RateLimiterControl {
     })
     this.bot = this.createRateLimiterProxy(new TelegramBot(token, options))
     this.payment = new TelegramPayment(this)
+    this.authenticator = new TGAuthenticator(token)
   }
 
   override checkJobFailError(error: Error | TelegramBotError, retryCount: number) {

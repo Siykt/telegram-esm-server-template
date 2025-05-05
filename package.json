@@ -20,6 +20,7 @@
     "@prisma/client": "^5.22.0",
     "axios": "^1.7.9",
     "bottleneck": "^2.19.5",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "ioredis": "^5.4.1",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.12.0",
     "@sindresorhus/tsconfig": "^5.1.1",
+    "@types/crypto-js": "^4.2.2",
     "@types/json-logic-js": "^2.0.8",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/koa": "^2.15.0",
